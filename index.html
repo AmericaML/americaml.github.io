@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>How to Make a GB Studio Game</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  
+  <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+      
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      html {
+        scroll-behavior: smooth;
+      }
+      
+      body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 40px 20px;
+        line-height: 1.6;
+        animation: fadeIn 0.6s ease-in;
+      }
+      
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      .page-wrapper {
+        max-width: 1400px;
+        margin: 0 auto;
+        animation: fadeIn 0.8s ease-in;
+      }
+      
+      .container, .learn-more-section, .steps-section {
+        animation: slideUp 0.6s ease-out;
+      }
+      
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      h1 {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        color: #ffffff;
+        margin-bottom: 15px;
+        text-align: center;
+        font-weight: 700;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        letter-spacing: -0.5px;
+      }
+      
+      h2 {
+        color: #2c3e50;
+        margin-top: 0;
+        margin-bottom: 15px;
+        text-align: center;
+        font-weight: 600;
+        font-size: clamp(1.75rem, 3vw, 2.25rem);
+      }
+      
+      h3 {
+        color: #7f8c8d;
+        margin-bottom: 30px;
+        text-align: center;
+        font-weight: 400;
+        font-size: clamp(1rem, 2vw, 1.2rem);
+      }
+      
+      .container {
+        background: white;
+        border-radius: 20px;
+        padding: 50px 40px;
+        margin: 30px auto 50px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        max-width: 1000px;
+      }
+      
+      #myCarousel {
+        margin-top: 30px;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      }
+      
+      #myCarousel .item {
+        position: relative;
+      }
+      
+      .carousel-image-link {
+        display: block;
+        cursor: pointer;
+        position: relative;
+        transition: opacity 0.3s ease;
+      }
+      
+      .carousel-image-link:hover {
+        opacity: 0.9;
+      }
+      
+      .carousel-image-link::after {
+        content: 'Click to Download Program';
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(102, 126, 234, 0.9);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+        z-index: 10;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      }
+      
+      .carousel-image-link:hover::after {
+        opacity: 1;
+      }
+      
+      #myCarousel .item img {
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: block;
+      }
+      
+      #myCarousel .item img:not([src]),
+      #myCarousel .item img[src=""] {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        position: relative;
+      }
+      
+      /* Ensure smooth carousel transitions */
+      .carousel-inner {
+        overflow: hidden;
+      }
+      
+      .carousel-inner > .item {
+        -webkit-transition: 0.6s ease-in-out left;
+        transition: 0.6s ease-in-out left;
+      }
+      
+      .carousel-caption {
+        background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 100%);
+        border-radius: 0;
+        padding: 35px 50px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        text-align: center;
+      }
+      
+      .carousel-caption h3 {
+        color: #fff;
+        font-size: clamp(1.75rem, 4vw, 2.5rem);
+        margin-bottom: 15px;
+        font-weight: 700;
+        text-shadow: 0 3px 10px rgba(0,0,0,0.5);
+        letter-spacing: -0.5px;
+      }
+      
+      .carousel-caption p {
+        color: #f0f0f0;
+        font-size: clamp(1rem, 2.5vw, 1.3rem);
+        line-height: 1.7;
+        margin: 0;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        font-weight: 400;
+      }
+      
+      .carousel-indicators {
+        bottom: 15px;
+      }
+      
+      .carousel-indicators li {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: rgba(255,255,255,0.5);
+        border: 2px solid rgba(255,255,255,0.8);
+        transition: all 0.3s ease;
+      }
+      
+      .carousel-indicators .active {
+        background-color: #fff;
+        width: 14px;
+        height: 14px;
+        transform: scale(1.2);
+      }
+      
+      .carousel-control {
+        width: 50px;
+        height: 50px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255,255,255,0.2);
+        border-radius: 50%;
+        opacity: 0.8;
+        transition: all 0.3s ease;
+      }
+      
+      .carousel-control:hover {
+        background: rgba(255,255,255,0.4);
+        opacity: 1;
+      }
+      
+      .carousel-control .glyphicon {
+        font-size: 20px;
+        color: #fff;
+        text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      }
+      
+      .learn-more-section {
+        background: white;
+        border-radius: 20px;
+        padding: 60px 50px;
+        margin: 50px auto;
+        max-width: 1000px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      }
+      
+      .learn-more-section h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        font-size: clamp(1.75rem, 3vw, 2.25rem);
+      }
+      
+      .learn-more-section > p {
+        text-align: center;
+        color: #7f8c8d;
+        font-size: clamp(1rem, 2vw, 1.15rem);
+        margin-bottom: 40px;
+        line-height: 1.8;
+      }
+      
+      .section-divider {
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #e0e0e0, transparent);
+        margin: 40px 0;
+      }
+      
+      /* Steps Section */
+      .steps-section {
+        background: white;
+        border-radius: 20px;
+        padding: 60px 50px;
+        margin: 50px auto;
+        max-width: 1000px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        animation: slideUp 0.6s ease-out;
+      }
+      
+      .steps-section h2 {
+        margin-bottom: 50px;
+      }
+      
+      .steps-container {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        position: relative;
+      }
+      
+      .step-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 25px;
+        padding: 30px;
+        background: #f8f9fa;
+        border-radius: 15px;
+        border-left: 4px solid #667eea;
+        transition: all 0.3s ease;
+        position: relative;
+        opacity: 0;
+        animation: fadeInUp 0.6s ease-out forwards;
+      }
+      
+      .step-item:nth-child(1) { animation-delay: 0.1s; }
+      .step-item:nth-child(2) { animation-delay: 0.2s; }
+      .step-item:nth-child(3) { animation-delay: 0.3s; }
+      .step-item:nth-child(4) { animation-delay: 0.4s; }
+      .step-item:nth-child(5) { animation-delay: 0.5s; }
+      .step-item:nth-child(6) { animation-delay: 0.6s; }
+      
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      .step-item:hover {
+        transform: translateX(10px);
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15);
+        background: #ffffff;
+      }
+      
+      .step-number {
+        flex-shrink: 0;
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 24px;
+        font-weight: 700;
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+      }
+      
+      .step-content {
+        flex: 1;
+      }
+      
+      .step-title {
+        font-size: 22px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 10px;
+      }
+      
+      .step-description {
+        font-size: 16px;
+        color: #7f8c8d;
+        line-height: 1.6;
+      }
+      
+      @media (max-width: 768px) {
+        body {
+          padding: 20px 10px;
+        }
+        
+        .container, .learn-more-section, .steps-section {
+          padding: 30px 20px;
+          border-radius: 15px;
+        }
+        
+        #myCarousel .item img {
+          height: 350px;
+        }
+        
+        .carousel-image-link::after {
+          top: 10px;
+          right: 10px;
+          padding: 6px 12px;
+          font-size: 12px;
+        }
+        
+        .carousel-caption {
+          padding: 20px 25px;
+        }
+        
+        .carousel-caption h3 {
+          font-size: 1.5rem;
+          margin-bottom: 10px;
+        }
+        
+        .carousel-caption p {
+          font-size: 0.95rem;
+        }
+        
+        .step-item {
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          padding: 25px 20px;
+        }
+        
+        .step-item:hover {
+          transform: translateY(-5px);
+        }
+        
+        .step-number {
+          margin-bottom: 15px;
+        }
+        
+        .step-title {
+          font-size: 20px;
+        }
+        
+        .step-description {
+          font-size: 15px;
+        }
+        
+        .formbold-input-flex {
+          flex-direction: column;
+        }
+        
+        .formbold-input-flex > div {
+          width: 100%;
+        }
+        
+        .formbold-radio-flex {
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+      }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+  <h1>Create Your Own Retro Game Boy Adventure</h1>
+<div class="container">
+    <h2>Inspiring GB Studio Creations</h2> 
+    <h3>Explore stunning examples of what you can build with GB Studio</h3>
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+      <li data-target="#myCarousel" data-slide-to="3"></li>
+      <li data-target="#myCarousel" data-slide-to="4"></li>
+      <li data-target="#myCarousel" data-slide-to="5"></li>
+      <li data-target="#myCarousel" data-slide-to="6"></li>
+    </ol>
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+      <div class="item active">
+        <a href="https://www.gbstudio.dev/" target="_blank" rel="noopener noreferrer" class="carousel-image-link">
+          <img src="images/gb_studio_music.png" alt="GB Studio Music Editor" style="width:100%;">
+        </a>
+        <div class="carousel-caption">
+          <h3>GB Studio Music Editor</h3>
+          <p>Compose authentic Game Boy chiptune music with the built-in music editor and tracker</p>
+        </div>
+      </div>
+      <div class="item">
+        <a href="https://www.gbstudio.dev/" target="_blank" rel="noopener noreferrer" class="carousel-image-link">
+          <img src="images/gb_studio_image1.png" alt="GB Studio Interface" style="width:100%;">
+        </a>
+        <div class="carousel-caption">
+          <h3>GB Studio Interface</h3>
+          <p>Explore the intuitive drag-and-drop interface for creating retro Game Boy games</p>
+        </div>
+      </div>
+      <div class="item">
+        <a href="https://www.gbstudio.dev/" target="_blank" rel="noopener noreferrer" class="carousel-image-link">
+          <img src="images/gb_studio_image2.png" alt="Game World Editor" style="width:100%;">
+        </a>
+        <div class="carousel-caption">
+          <h3>Game World Editor</h3>
+          <p>Design and build your game worlds with the powerful scene editor and platformer tools</p>
+        </div>
+      </div>
+      <div class="item">
+        <a href="https://www.gbstudio.dev/" target="_blank" rel="noopener noreferrer" class="carousel-image-link">
+          <img src="images/gb_studio_image3.png" alt="Map & Scene Editor" style="width:100%;">
+        </a>
+        <div class="carousel-caption">
+          <h3>Map & Scene Editor</h3>
+          <p>Create interconnected scenes, manage game variables, and script interactive elements</p>
+        </div>
+      </div>
+      <div class="item">
+        <a href="https://www.gbstudio.dev/" target="_blank" rel="noopener noreferrer" class="carousel-image-link">
+          <img src="images/gb_studio_program.png" alt="GB Studio Program" style="width:100%;">
+        </a>
+        <div class="carousel-caption">
+          <h3>GB Studio Program</h3>
+          <p>Build complete games with advanced features including parallax scrolling and sprite palettes</p>
+        </div>
+      </div>
+      <div class="item">
+        <a href="https://www.spriters-resource.com/" target="_blank" rel="noopener noreferrer" class="carousel-image-link">
+          <img src="images/sprinter_resource_page.png" alt="Sprinter's Resource" style="width:100%;">
+        </a>
+        <div class="carousel-caption">
+          <h3>Sprinter's Resource</h3>
+          <p>Access thousands of game sprites, tilesets, and assets to jumpstart your project</p>
+        </div>
+      </div>
+      <div class="item">
+        <a href="https://www.pureref.com/" target="_blank" rel="noopener noreferrer" class="carousel-image-link">
+          <img src="images/pure_ref.png" alt="PureRef Reference Board" style="width:100%;">
+        </a>
+        <div class="carousel-caption">
+          <h3>PureRef Reference Board</h3>
+          <p>Organize all your reference images, inspiration, and assets in one convenient workspace</p>
+        </div>
+      </div>
+    </div>
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
+
+  <div class="steps-section">
+    <h2>Step-by-Step Guide</h2>
+    <div class="steps-container">
+      <div class="step-item">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <div class="step-title">Download GB Studio</div>
+          <div class="step-description">Get started by downloading the GB Studio software from the official website. GB Studio is a free, easy-to-use game creator that allows you to make retro-style games for the Game Boy.</div>
+        </div>
+      </div>
+      
+      <div class="step-item">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <div class="step-title">Download GB Studio Game Palettes</div>
+          <div class="step-description">Download the official game palettes to ensure authentic Game Boy colors. These palettes will help you create graphics that look true to the original Game Boy aesthetic.</div>
+        </div>
+      </div>
+      
+      <div class="step-item">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <div class="step-title">Download LibreSprite</div>
+          <div class="step-description">Install LibreSprite, a free and open-source pixel art editor for creating your game assets. This powerful tool will help you design sprites, tiles, and animations for your game.</div>
+        </div>
+      </div>
+      
+      <div class="step-item">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <div class="step-title">Use Sprinter's Resource for Tileset</div>
+          <div class="step-description">Get started with Sprinter's resource tileset to quickly build your game world. This resource provides pre-made tiles that you can use as a foundation for your game's environment.</div>
+        </div>
+      </div>
+      
+      <div class="step-item">
+        <div class="step-number">5</div>
+        <div class="step-content">
+          <div class="step-title">Use PureRef to Track Resources</div>
+          <div class="step-description">Keep track of what's being used and what's not with PureRef reference board. This tool helps you organize your assets, references, and keep your project workflow clean and efficient.</div>
+        </div>
+      </div>
+      
+      <div class="step-item">
+        <div class="step-number">6</div>
+        <div class="step-content">
+          <div class="step-title">Build Your Game: Skeleton, Alpha, then Beta</div>
+          <div class="step-description">Start with a skeleton build to establish core mechanics, then move to alpha for feature completion, and finally beta for polish and bug fixes. This iterative approach ensures a solid foundation before adding complexity.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="learn-more-section">
+    <h2>Learn More</h2>
+    <p>Have questions or need help with your GB Studio project? Contact us by filling out the form below.</p>
+    
+    <div class="section-divider"></div>
+    
+    <h2>Contact Us</h2>
+    <div class="formbold-main-wrapper">
+      <div class="formbold-form-wrapper">
+        <!-- Success/Error Messages -->
+        <div id="form-message" class="form-message" style="display: none;"></div>
+        
+        <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" id="contact-form">
+          <input type="hidden" name="_next" value="https://AmericaML.github.io/gb-studio-guide/?status=success">
+          <input type="hidden" name="_subject" value="GB Studio Contact Form Submission">
+          
+          <div>
+            <label for="email" class="formbold-form-label">Email</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="your.email@example.com"
+              class="formbold-form-input"
+              required
+            />
+          </div>
+
+          <div>
+            <label for="subject" class="formbold-form-label">Subject</label>
+            <input
+              type="text"
+              name="subject"
+              id="subject"
+              placeholder="What is your question about?"
+              class="formbold-form-input"
+              required
+            />
+          </div>
+
+          <div>
+            <label for="message" class="formbold-form-label">Message</label>
+            <textarea
+              rows="6"
+              name="message"
+              id="message"
+              placeholder="Type your message here..."
+              class="formbold-form-input"
+              required
+            ></textarea>
+          </div>
+
+          <button type="submit" class="formbold-btn">
+            Send Message
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  .formbold-main-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-top: 20px;
+  }
+
+  .formbold-form-wrapper {
+    margin: 0 auto;
+    max-width: 600px;
+    width: 100%;
+    background: transparent;
+  }
+  
+  .form-message {
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    text-align: center;
+  }
+  
+  .form-message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+  
+  .form-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+  
+  .formbold-form-wrapper > div {
+    margin-bottom: 20px;
+  }
+  
+  .formbold-form-wrapper > div:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .formbold-input-flex {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .formbold-input-flex > div {
+    width: 50%;
+    flex: 1;
+  }
+
+  .formbold-input-radio-wrapper {
+    margin-bottom: 30px;
+  }
+  
+  .formbold-input-radio-wrapper .formbold-form-label {
+    margin-bottom: 15px;
+  }
+  
+  .formbold-radio-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 10px;
+  }
+  
+  .formbold-radio-group {
+    flex: 1;
+    min-width: 120px;
+  }
+  
+  .formbold-radio-label {
+    font-size: 15px;
+    line-height: 24px;
+    color: #2c3e50;
+    position: relative;
+    padding-left: 32px;
+    cursor: pointer;
+    display: block;
+    transition: color 0.2s ease;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  .formbold-radio-label:hover {
+    color: #667eea;
+  }
+  
+  .formbold-input-radio {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  .formbold-radio-checkmark {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #FFFFFF;
+    border: 2px solid #DDE3EC;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+  }
+  
+  .formbold-radio-label:hover .formbold-radio-checkmark {
+    border-color: #667eea;
+  }
+  
+  .formbold-radio-label .formbold-input-radio:checked ~ .formbold-radio-checkmark {
+    background-color: #667eea;
+    border-color: #667eea;
+  }
+  
+  .formbold-radio-checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  .formbold-radio-label .formbold-input-radio:checked ~ .formbold-radio-checkmark:after {
+    display: block;
+  }
+
+  .formbold-radio-label .formbold-radio-checkmark:after {
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    transform: translate(-50%, -50%);
+  }
+
+  .formbold-form-input {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 10px;
+    border: 2px solid #e8e8e8;
+    background: #f8f9fa;
+    font-weight: 400;
+    font-size: 15px;
+    color: #2c3e50;
+    outline: none;
+    resize: none;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .formbold-form-input:hover {
+    border-color: #d0d0d0;
+    background: #ffffff;
+  }
+  
+  .formbold-form-input::placeholder {
+    color: #95a5a6;
+  }
+  
+  .formbold-form-input:focus {
+    border-color: #667eea;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+  }
+  
+  .formbold-form-label {
+    color: #2c3e50;
+    font-size: 15px;
+    line-height: 24px;
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .formbold-btn {
+    text-align: center;
+    width: 100%;
+    font-size: 16px;
+    border-radius: 10px;
+    padding: 16px 30px;
+    border: none;
+    font-weight: 600;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .formbold-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+  }
+  
+  .formbold-btn:active {
+    transform: translateY(-1px);
+  }
+
+</style>
+
+<script>
+  // Fix carousel glitches
+  $(document).ready(function() {
+    // Initialize carousel properly
+    $('#myCarousel').carousel({
+      interval: 5000,
+      pause: 'hover',
+      wrap: true
+    });
+    
+    // Prevent image loading issues
+    $('#myCarousel img').on('load', function() {
+      $(this).css('opacity', '1');
+    }).each(function() {
+      if (this.complete) {
+        $(this).trigger('load');
+      }
+    });
+    
+    // Fix carousel slide transitions
+    $('#myCarousel').on('slide.bs.carousel', function(e) {
+      var $next = $(e.relatedTarget);
+      var $items = $('.item', this);
+      $items.removeClass('active');
+      $next.addClass('active');
+    });
+    
+    // Handle form messages from URL parameters
+    var urlParams = new URLSearchParams(window.location.search);
+    var status = urlParams.get('status');
+    var message = urlParams.get('message');
+    var formMessage = $('#form-message');
+    
+    if (status === 'success') {
+      formMessage.removeClass('error').addClass('success');
+      formMessage.text('Thank you! Your message has been sent successfully. We will get back to you soon.');
+      formMessage.show();
+      
+      // Clear form
+      $('#contact-form')[0].reset();
+      
+      // Scroll to message
+      $('html, body').animate({
+        scrollTop: formMessage.offset().top - 100
+      }, 500);
+      
+      // Remove status from URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (status === 'error') {
+      formMessage.removeClass('success').addClass('error');
+      formMessage.text(message || 'Sorry, there was an error sending your message. Please try again.');
+      formMessage.show();
+      
+      // Scroll to message
+      $('html, body').animate({
+        scrollTop: formMessage.offset().top - 100
+      }, 500);
+    }
+  });
+</script>
+
+</body>
+</html>
